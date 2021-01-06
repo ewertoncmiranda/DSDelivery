@@ -33,25 +33,26 @@ public class Order implements Serializable{
 	private Instant moment;
 	private OrderStatus status ;
 	
+	@ManyToMany
+	@JoinTable(name = "tb_order_product" ,
+				joinColumns = @JoinColumn(name ="order_id"), 
+				inverseJoinColumns = @JoinColumn(name = "product_id"))
+	private Set<Product> products = new HashSet<>() ;
+	
+	
 	public Order() {};
 	
-	public Order(long id, String adress, Double latitude, Double longitude, Instant moment, OrderStatus status,
-			Set<Product> products) {
-		super();
+	public Order(long id, String adress, Double latitude, Double longitude, Instant moment, OrderStatus status) {
 		this.id = id;
 		this.address = adress;
 		this.latitude = latitude;
 		this.longitude = longitude;
 		this.moment = moment;
 		this.status = status;
-		this.products = products;
+		
 	}
 
-	@ManyToMany
-	@JoinTable(name = "tb_order_product" ,
-				joinColumns = @JoinColumn(name ="order_id"), 
-				inverseJoinColumns = @JoinColumn(name = "product_id"))
-	private Set<Product> products = new HashSet<>() ;
+	
 		
 	public long getId() {
 		return id;
